@@ -1,3 +1,4 @@
+import React from "react";
 import { FlatList, Text, View } from "react-native";
 
 // Hard Coded Data Structure
