@@ -2,10 +2,15 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StatusBar } from 'expo-status-bar';
-import React, { Component, useState } from 'react';
+import React, { Component, useEffect, useState } from 'react';
 import { StyleSheet, Text, View, Image, Button, FlatList } from 'react-native';
 import NewsPage from './src/tutorials/HttpClientComponent';
 import ListViewPage from './src/tutorials/ListComponent';
+import { Ionicons } from '@expo/vector-icons';
+import SignInScreen from './src/screens/SignInScreen';
+import RegisterScreen from './src/screens/RegisterScreen';
+import { initializeApp } from 'firebase/app';
+import { firebaseCofig } from './src/helper/Constants';
 
 function HomeScreen({navigation}){
   return(
@@ -65,7 +70,7 @@ const Drawer = createDrawerNavigator();
 // For Navigation inside the App
 // https://reactnavigation.org/docs
 
-export default function App(){
+function OldApp(){
   return(
     <NavigationContainer>
       <Drawer.Navigator initialRouteName="Home">
@@ -82,6 +87,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  splash: {
+    flex: 1,
+    // Make the backgroud as a gradient color
+    backgroundColor: '#aed',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -111,6 +123,47 @@ const styles = StyleSheet.create({
   },
   subTitle:{
     fontSize: 12,
-    color: "#f23"
   }
 });
+
+export default function App(){
+
+  const [showSplash, setShowSplash] = useState(true);
+
+  useEffect( ()=>{
+
+    // local function
+    async function showSplashScreen(){
+      try{
+        initializeApp(firebaseCofig);
+        await new Promise(resolve => setTimeout(resolve, 2000));
+      }catch(error){
+        console.log("Something Went Wrong: "+error);
+      }finally{
+        setShowSplash(false);
+      }
+    }
+
+    showSplashScreen();
+    
+  }, [] );
+
+  if(showSplash){
+    return (
+      <View style={styles.splash}>
+          <Ionicons name="md-heart-circle-sharp" size={32} color="green"/>
+          <Text>Health Logger</Text>
+      </View>
+    );
+  }
+
+  return(
+      <NavigationContainer>
+      <Stack.Navigator initialRouteName="Signin">
+        <Stack.Screen name="Signin" component={SignInScreen} options={{title:"Sign In"}}/>
+        <Stack.Screen name="Register" component={RegisterScreen} options={{title:"Register"}}/>
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+
+}
