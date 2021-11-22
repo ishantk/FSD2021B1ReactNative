@@ -11,6 +11,8 @@ import SignInScreen from './src/screens/SignInScreen';
 import RegisterScreen from './src/screens/RegisterScreen';
 import { initializeApp } from 'firebase/app';
 import { firebaseCofig } from './src/helper/Constants';
+import DishesScreen from './src/screens/DishesScreen';
+import AppHomeScreen from './src/screens/HomeScreen';
 
 function HomeScreen({navigation}){
   return(
@@ -162,6 +164,8 @@ export default function App(){
       <Stack.Navigator initialRouteName="Signin">
         <Stack.Screen name="Signin" component={SignInScreen} options={{title:"Sign In"}}/>
         <Stack.Screen name="Register" component={RegisterScreen} options={{title:"Register"}}/>
+        <Stack.Screen name="Home" component={AppHomeScreen}/>
+        <Stack.Screen name="Dishes" component={DishesScreen}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
