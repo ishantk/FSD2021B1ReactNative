@@ -13,6 +13,7 @@ import { initializeApp } from 'firebase/app';
 import { firebaseCofig } from './src/helper/Constants';
 import DishesScreen from './src/screens/DishesScreen';
 import AppHomeScreen from './src/screens/HomeScreen';
+import { getAuth } from '@firebase/auth';
 
 function HomeScreen({navigation}){
   return(
@@ -134,10 +135,16 @@ export default function App(){
 
   useEffect( ()=>{
 
+
     // local function
     async function showSplashScreen(){
       try{
         initializeApp(firebaseCofig);
+        // Check if the user is logged in or not
+        const auth = getAuth();
+        if(auth.currentUser != null){
+          console.log("user is logged in already");
+        }
         await new Promise(resolve => setTimeout(resolve, 2000));
       }catch(error){
         console.log("Something Went Wrong: "+error);

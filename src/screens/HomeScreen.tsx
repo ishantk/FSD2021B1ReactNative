@@ -10,7 +10,12 @@ function AppHomeScreen({navigation}){
     const Item = ( {itemData} ) => (
         <View style={styles.item}>
             <TouchableOpacity
-                onPress={navigateToDishes}
+                onPress = { () =>{
+                    //navigation.navigate("Dishes", {data: itemData});
+                    navigation.navigate("Dishes", {name: itemData.name, 
+                        docId: itemData.docId});
+                }
+            }
             >
                 <Image source={{uri: itemData.imageUrl}} style={styles.image}/>
                 <Text style={styles.title}>{itemData.name}</Text>
@@ -18,10 +23,6 @@ function AppHomeScreen({navigation}){
             </TouchableOpacity>
         </View>
     );
-
-    function navigateToDishes(){
-        navigation.navigate("Dishes");
-    }
 
     const [restaurants, setRestaurants] = useState([]);
     const [activityIndicator, setActivityIndicator] = useState(true);
@@ -35,7 +36,9 @@ function AppHomeScreen({navigation}){
                 querySnapshot.forEach((doc) => {
                     // doc.data() is never undefined for query doc snapshots
                      console.log(doc.id, " => ", doc.data());
-                    documents.push(doc.data());
+                     const docData = doc.data();
+                     docData['docId'] = doc.id;
+                     documents.push(docData);
                 });
                 setRestaurants(documents);
                 setActivityIndicator(false);
