@@ -3,10 +3,17 @@ import { ActivityIndicator, FlatList, Image, StyleSheet, Text, View } from "reac
 import { collection, getDocs } from "firebase/firestore";
 import { getFirestore } from "firebase/firestore"
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { doc, setDoc, deleteDoc, Timestamp } from "firebase/firestore"; 
+import { getAuth } from "firebase/auth";
+
 
 export default function DishesScreen({route, navigation}){
 
     const {name, docId} = route.params;
+    const [count, setCount] = useState(0);
+    const auth = getAuth();
+    const uid = auth.currentUser?.uid;
+    const db = getFirestore();
 
     const Item = ( {itemData} ) => (
         <View style={styles.item}>
@@ -15,19 +22,35 @@ export default function DishesScreen({route, navigation}){
                 <Text style={styles.subTitle}>{itemData.price}</Text>
                 <View style={styles.counterContainer}>
               <TouchableOpacity onPress={()=>{
-                  // var current = count;
-                  // setCount(++current);
+                  var current = count;
+                  setCount(++current);
+                  console.log("count is: "+count+" uid is: "+uid);
+                  
+                  // Insert or Update Data
+                  const documentToInsert = itemData;
+                  documentToInsert['quantity'] = count;
+
+                  setDoc(doc(db, "users/"+uid+"/cart", itemData.name), documentToInsert);
+
               }}>
                 <Text style={{fontSize: 16, color:'#000', marginLeft:8}}>+</Text>
              </TouchableOpacity>
             
-            <Text style={{fontSize: 16, color:'#000', marginLeft:8}}>1</Text>
+            <Text style={{fontSize: 16, color:'#000', marginLeft:8}}>{count}</Text>
 
             <TouchableOpacity onPress={()=>{
-                // var current = count;
-                // if(count > 0){
-                //     setCount(--current);
-                // }
+                var current = count;
+                if(count > 0){
+                    setCount(--current);
+                    console.log("count is: "+count);
+
+                     // Delete or Update Data
+                     const documentToInsert = itemData;
+                     documentToInsert['quantity'] = count;
+                     setDoc(doc(db, "users/"+uid+"/cart", itemData.name), documentToInsert);
+                }else{
+                    deleteDoc(doc(db, "users/"+uid+"/cart", itemData.name));
+                }
             }}>
                 <Text style={{fontSize: 16, color:'#000', marginLeft:8, marginRight:8}}>-</Text>
             </TouchableOpacity>
@@ -37,7 +60,6 @@ export default function DishesScreen({route, navigation}){
 
     const [dishes, setDishes] = useState([]);
     const [activityIndicator, setActivityIndicator] = useState(true);
-    const db = getFirestore();
 
     const getRestaurantsFromFirebase = async () => {
         try{
