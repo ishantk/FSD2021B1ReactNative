@@ -10,16 +10,28 @@ export default function DishesScreen({route, navigation}){
 
     const Item = ( {itemData} ) => (
         <View style={styles.item}>
-            <TouchableOpacity
-                onPress = { () =>{
-                    
-                }
-            }
-            >
                 <Image source={{uri: itemData.imageUrl}} style={styles.image}/>
                 <Text style={styles.title}>{itemData.name}</Text>
                 <Text style={styles.subTitle}>{itemData.price}</Text>
+                <View style={styles.counterContainer}>
+              <TouchableOpacity onPress={()=>{
+                  // var current = count;
+                  // setCount(++current);
+              }}>
+                <Text style={{fontSize: 16, color:'#000', marginLeft:8}}>+</Text>
+             </TouchableOpacity>
+            
+            <Text style={{fontSize: 16, color:'#000', marginLeft:8}}>1</Text>
+
+            <TouchableOpacity onPress={()=>{
+                // var current = count;
+                // if(count > 0){
+                //     setCount(--current);
+                // }
+            }}>
+                <Text style={{fontSize: 16, color:'#000', marginLeft:8, marginRight:8}}>-</Text>
             </TouchableOpacity>
+        </View>
         </View>
     );
 
@@ -70,6 +82,19 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       justifyContent: 'center',
     },
+    counterContainer: {
+      margin: 24,
+        maxHeight: 32,  
+        maxWidth: 80,
+       borderWidth: 1,
+       borderRadius: 30,
+        borderColor: 'gray',
+        flex: 1,
+        flexDirection: 'row',
+        alignItems: 'center',
+        alignContent: 'flex-end',
+        justifyContent: 'space-between',
+      },
     textStyle:{
       fontSize: 24,
       color: "#f00",

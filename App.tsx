@@ -14,6 +14,7 @@ import { firebaseCofig } from './src/helper/Constants';
 import DishesScreen from './src/screens/DishesScreen';
 import AppHomeScreen from './src/screens/HomeScreen';
 import { getAuth } from '@firebase/auth';
+import CounterComponent from './src/tutorials/CounterComponent';
 
 function HomeScreen({navigation}){
   return(
@@ -173,6 +174,7 @@ export default function App(){
         <Stack.Screen name="Register" component={RegisterScreen} options={{title:"Register"}}/>
         <Stack.Screen name="Home" component={AppHomeScreen}/>
         <Stack.Screen name="Dishes" component={DishesScreen}/>
+        <Stack.Screen name="Counter" component={CounterComponent}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
