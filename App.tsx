@@ -15,6 +15,9 @@ import DishesScreen from './src/screens/DishesScreen';
 import AppHomeScreen from './src/screens/HomeScreen';
 import { getAuth } from '@firebase/auth';
 import CounterComponent from './src/tutorials/CounterComponent';
+import { Appbar } from 'react-native-paper';
+import CartScreen from './src/screens/CartScreen';
+
 
 function HomeScreen({navigation}){
   return(
@@ -130,7 +133,22 @@ const styles = StyleSheet.create({
   }
 });
 
-export default function App(){
+const MyAppBar = ({navigation}) => (
+  <Appbar>
+   <Appbar.Action
+     icon="bell"
+     onPress={() => console.log('Pressed archive')}
+    />
+    <Appbar.Action icon="mail" onPress={() => console.log('Pressed mail')} />
+    <Appbar.Action icon="label" onPress={() => console.log('Pressed label')} />
+    <Appbar.Action
+      icon="cart"
+      onPress={() => navigation.navigate("Home")}
+    />
+  </Appbar>
+);
+
+export default function App({navigation}){
 
   const [showSplash, setShowSplash] = useState(true);
 
@@ -169,11 +187,25 @@ export default function App(){
 
   return(
       <NavigationContainer>
-      <Stack.Navigator initialRouteName="Signin">
+       {/* <Stack.Navigator initialRouteName="Signin" screenOptions={{headerShown: false}}> */}
+       <Stack.Navigator initialRouteName="Signin" >
+       <Stack.Screen name="AppBar" component={MyAppBar}/>
         <Stack.Screen name="Signin" component={SignInScreen} options={{title:"Sign In"}}/>
         <Stack.Screen name="Register" component={RegisterScreen} options={{title:"Register"}}/>
-        <Stack.Screen name="Home" component={AppHomeScreen}/>
+        <Stack.Screen name="Home" component={AppHomeScreen} options={{
+          title:"Home",
+          headerRight: ()=>(
+            // <Text>Cart</Text>
+            
+            <Appbar.Action
+              icon="cart"
+              onPress={() => navigation.navigate("Home")}
+            />
+
+          )
+          }}/>
         <Stack.Screen name="Dishes" component={DishesScreen}/>
+        <Stack.Screen name="Cart" component={CartScreen}/>
         <Stack.Screen name="Counter" component={CounterComponent}/>
       </Stack.Navigator>
     </NavigationContainer>

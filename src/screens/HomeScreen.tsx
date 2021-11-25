@@ -3,6 +3,7 @@ import { ActivityIndicator, FlatList, Image, StyleSheet, Text, View } from "reac
 import { collection, getDocs } from "firebase/firestore";
 import { getFirestore } from "firebase/firestore"
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { Appbar } from 'react-native-paper';
 
 
 function AppHomeScreen({navigation}){
@@ -55,6 +56,19 @@ function AppHomeScreen({navigation}){
 
     return (
         <View>
+            {/* <Appbar>
+              <Appbar.Action
+                icon="bell"
+                onPress={() => console.log('Pressed archive')}
+                />
+                <Appbar.Action icon="mail" onPress={() => console.log('Pressed mail')} />
+                <Appbar.Action icon="label" onPress={() => console.log('Pressed label')} />
+                <Appbar.Action
+                  icon="cart"
+                  onPress={() => navigation.navigate("Cart")}
+                />
+              </Appbar> */}
+
             { activityIndicator ? <ActivityIndicator/> : 
              <FlatList data={restaurants} renderItem={renderItem}/>
             }
