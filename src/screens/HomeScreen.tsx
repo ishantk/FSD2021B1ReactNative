@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
     },
     subTitle:{
       fontSize: 12,
-      color: "##055"
+      color: "#055"
     }
   });
 
